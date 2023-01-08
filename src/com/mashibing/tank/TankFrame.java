@@ -57,7 +57,9 @@ public class TankFrame extends Frame {
         @Override
         public void keyPressed(KeyEvent e) {
             //一个键被按下去时候调用
-            System.out.println("keyPressed");
+            //paint是系统自动调用的，repaint才是外部可以调用的函数。
+//            x+=200;
+//            repaint();
         }
 
         @Override
