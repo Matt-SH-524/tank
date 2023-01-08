@@ -46,17 +46,47 @@ public class TankFrame extends Frame {
         //这个方法没有被调用，却被打印出来了，说明它是自动调用的。
         //Graphics是画图的类，相当于一支画笔。
         g.fillRect(x,y,50,50);
-        x+=10;
-        y+=10;
+        //x+=10;
+        //y+=10;
     }
 
     //内部类
     class MyKeyListener extends KeyAdapter {
         //这个类里面专门处理对键盘的监听
+        boolean bL = false;
+        boolean bR = false;
+        boolean bU = false;
+        boolean bD = false;
 
         @Override
         public void keyPressed(KeyEvent e) {
             //一个键被按下去时候调用
+            //KeyEvent事件中哪个键被按下了
+            int key = e.getKeyCode();
+            //判断到底按的是哪个键
+            switch (key) {
+                //KeyEvent定义了很多虚拟键盘
+                case KeyEvent.VK_LEFT:
+                    //按下某个键时，定义的布尔值为True
+                    bL = true;
+                    //按下左键，左移10
+//                    x-=10;
+                    break;
+                case KeyEvent.VK_UP:
+                    bU = true;
+//                    y-=10;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    bR = true;
+//                    x+=10;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    bD = true;
+//                    y+=10;
+                    break;
+                default:
+                    break;
+            }
             //paint是系统自动调用的，repaint才是外部可以调用的函数。
 //            x+=200;
 //            repaint();
@@ -65,9 +95,26 @@ public class TankFrame extends Frame {
         @Override
         public void keyReleased(KeyEvent e) {
             //一个键被释放时候调用
-            System.out.println("keyReleased");
+            int key = e.getKeyCode();
+            //判断到底按的是哪个键
+            switch (key) {
+                //KeyEvent定义了很多虚拟键盘
+                case KeyEvent.VK_LEFT:
+                    //键被释放时，定义的布尔值为false
+                    bL = false;
+                    break;
+                case KeyEvent.VK_UP:
+                    bU = false;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    bR = false;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    bD = false;
+                    break;
+                default:
+                    break;
+            }
         }
-
-
     }
 }
