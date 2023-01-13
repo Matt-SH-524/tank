@@ -11,6 +11,9 @@ import java.awt.event.WindowEvent;
 public class TankFrame extends Frame {
     //想要画面动，坐标就要是变量
     int x=200,y=200;
+    Dir dir; //先不设置初始值= Dir.DOWN;
+    //tank的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
+    private final static int SPEED = 10;
 
     //建立一个构造方法
     public TankFrame() {
@@ -46,8 +49,21 @@ public class TankFrame extends Frame {
         //这个方法没有被调用，却被打印出来了，说明它是自动调用的。
         //Graphics是画图的类，相当于一支画笔。
         g.fillRect(x,y,50,50);
-        //x+=10;
-        //y+=10;
+        switch (dir) {
+            case LEFT:
+                x-=SPEED;
+                break;
+            case RIGHT:
+                x+=SPEED;
+                break;
+            case UP:
+                y-=SPEED;
+                break;
+            case DOWN:
+                y+=SPEED;
+                break;
+        }
+        //x+=10;y+=10;
     }
 
     //内部类
@@ -87,6 +103,7 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
+            setMainTankDir();
             //paint是系统自动调用的，repaint才是外部可以调用的函数。
 //            x+=200;
 //            repaint();
@@ -115,6 +132,19 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
+            setMainTankDir();
+        }
+        private void setMainTankDir() {
+            /*正式写法
+            if(bR) {
+                dir = Dir.RIGHT;
+            }*/
+            //简洁写法
+            if(bR) dir = Dir.RIGHT;
+            if(bL) dir = Dir.LEFT;
+            if(bU) dir = Dir.UP;
+            if(bD) dir = Dir.DOWN;
         }
     }
+
 }
