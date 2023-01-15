@@ -9,12 +9,8 @@ import java.awt.event.WindowEvent;
 
 //继承Frame类(窗口类)，优势：可以重写Frame方法
 public class TankFrame extends Frame {
-    //想要画面动，坐标就要是变量
-    int x=200,y=200;
-    Dir dir; //先不设置初始值= Dir.DOWN;
-    //tank的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
-    private final static int SPEED = 10;
 
+    Tank myTank = new Tank(200,200,Dir.DOWN);
     //建立一个构造方法
     public TankFrame() {
         //因为自己是一个窗口，可以直接调用窗口的方法
@@ -48,22 +44,7 @@ public class TankFrame extends Frame {
     public void paint(Graphics g) {
         //这个方法没有被调用，却被打印出来了，说明它是自动调用的。
         //Graphics是画图的类，相当于一支画笔。
-        g.fillRect(x,y,50,50);
-        switch (dir) {
-            case LEFT:
-                x-=SPEED;
-                break;
-            case RIGHT:
-                x+=SPEED;
-                break;
-            case UP:
-                y-=SPEED;
-                break;
-            case DOWN:
-                y+=SPEED;
-                break;
-        }
-        //x+=10;y+=10;
+        myTank.paint(g);
     }
 
     //内部类
@@ -104,9 +85,6 @@ public class TankFrame extends Frame {
                     break;
             }
             setMainTankDir();
-            //paint是系统自动调用的，repaint才是外部可以调用的函数。
-//            x+=200;
-//            repaint();
         }
 
         @Override
@@ -140,10 +118,10 @@ public class TankFrame extends Frame {
                 dir = Dir.RIGHT;
             }*/
             //简洁写法
-            if(bR) dir = Dir.RIGHT;
-            if(bL) dir = Dir.LEFT;
-            if(bU) dir = Dir.UP;
-            if(bD) dir = Dir.DOWN;
+            if(bR) myTank.setDir(Dir.RIGHT);
+            if(bL) myTank.setDir(Dir.LEFT);
+            if(bU) myTank.setDir(Dir.UP);
+            if(bD) myTank.setDir(Dir.DOWN);
         }
     }
 
