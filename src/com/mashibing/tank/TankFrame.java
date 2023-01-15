@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 public class TankFrame extends Frame {
 
     Tank myTank = new Tank(200,200,Dir.DOWN);
+    Bullet myBullet = new Bullet(250,250,Dir.DOWN);
     //建立一个构造方法
     public TankFrame() {
         //因为自己是一个窗口，可以直接调用窗口的方法
@@ -43,8 +44,10 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         //这个方法没有被调用，却被打印出来了，说明它是自动调用的。
-        //Graphics是画图的类，相当于一支画笔。
+        //Graphics g是画图的类，相当于一支画笔。
+//        把g这支画笔传给坦克，然后又传给子弹。
         myTank.paint(g);
+        myBullet.paint(g);
     }
 
     //内部类
