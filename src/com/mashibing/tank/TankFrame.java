@@ -1,7 +1,6 @@
 package com.mashibing.tank;
 
-import java.awt.Graphics;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -10,13 +9,15 @@ import java.awt.event.WindowEvent;
 //继承Frame类(窗口类)，优势：可以重写Frame方法
 public class TankFrame extends Frame {
 
+//    游戏界面宽度和高度定义成常量
+    private final static int GAME_WIDTH=800,GAME_HEIGHT=800;
     Tank myTank = new Tank(200,200,Dir.DOWN);
     Bullet myBullet = new Bullet(250,250,Dir.DOWN);
     //建立一个构造方法
     public TankFrame() {
         //因为自己是一个窗口，可以直接调用窗口的方法
         //设置窗口大小
-        setSize(800,600);
+        setSize(GAME_WIDTH,GAME_HEIGHT);
         //设置不能改变窗口大小
         setResizable(false);
         setTitle("tank war");
@@ -38,6 +39,23 @@ public class TankFrame extends Frame {
 
         });
 
+    }
+
+    Image offScreenImage = null;
+    @Override
+    //update方法会在paint之前被调用，所以截获系统paint之前，拿到这支画笔。
+    public void update(Graphics g) {
+        if (offScreenImage == null) offScreenImage = this.createImage(GAME_WIDTH,GAME_HEIGHT);
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color offScreenColor = gOffScreen.getColor();
+//        用黑颜色把背景涂一遍
+        gOffScreen.setColor(Color.black);
+        gOffScreen.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+        gOffScreen.setColor(offScreenColor);
+        //        接下去就是paint方法被调用，这样就把这支画笔传给坦克和子弹，画坦克和子弹时候就画到内存里了。
+        paint(gOffScreen);//就是调用下面的paint方法
+//        这个g是系统的画笔，直接把整张图片画到屏幕上。
+        g.drawImage(offScreenImage,0,0,null);
     }
 
     //窗口被重新绘制的时候会调用这个方法，比如窗口大小改变时候。

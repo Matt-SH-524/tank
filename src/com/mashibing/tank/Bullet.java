@@ -23,7 +23,6 @@ public class Bullet {
         g.setColor(bulletColor);
 //        设置个控制移动的方法
         move();
-
     }
 
     private void move() {
