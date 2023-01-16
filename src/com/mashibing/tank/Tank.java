@@ -15,6 +15,7 @@ public class Tank {
     //    设置坦克的停止状态
     private boolean moving = false;
 //定义构造体
+//    TankFrame是我们的大管家，我们都要持有它的引用
     public Tank(int x, int y, Dir dir,TankFrame tf) {
         this.x = x;
         this.y = y;
@@ -70,6 +71,6 @@ public class Tank {
     }
 //坦克发射子弹，在坦克的类里写发射子弹的方法。
     public void fire() {
-        tf.bullet = new Bullet(this.x,this.y,this.dir);
+        tf.bullets.add(new Bullet(this.x,this.y,this.dir,tf));
     }
 }

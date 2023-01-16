@@ -5,15 +5,22 @@ import java.awt.*;
 public class Bullet {
     private int x,y;
     private Dir dir;
+    private TankFrame tf;
+//    子弹存在
+    private boolean live = true;
     private final static int SPEED = 3;
-
-    public Bullet(int x, int y, Dir dir) {
+    public Bullet(int x, int y, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.tf = tf;
     }
 
     public void paint(Graphics g) {
+//        如果子弹飞出去就不存在了
+//        使用容器List，如果不进行回收，容易产生内存泄露，所以Java也会有内存泄露，比如容器的值没有回收。
+//        remove时不会越界，因为它会同时调整size.
+        if(!live) tf.bullets.remove(this);
 //        画笔的颜色先保存下来
         Color bulletColor = g.getColor();
 //        setColor方法要放在画子弹fillOval之前，放在后面就失效了。
@@ -40,5 +47,6 @@ public class Bullet {
                 y+=SPEED;
                 break;
         }
+        if(x<0 || y<0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) live =false;
     }
 }

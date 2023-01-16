@@ -5,15 +5,19 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 //继承Frame类(窗口类)，优势：可以重写Frame方法
 public class TankFrame extends Frame {
 
 //    游戏界面宽度和高度定义成常量
-    private final static int GAME_WIDTH=800,GAME_HEIGHT=800;
+    public final static int GAME_WIDTH=800,GAME_HEIGHT=800;
     //    哪个窗口new出来的坦克，请你把自己传进来。
     Tank myTank = new Tank(200,200,Dir.DOWN,this);
-    Bullet bullet = new Bullet(250,250,Dir.DOWN);
+//    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
+    List<Bullet> bullets = new ArrayList<>();
     //建立一个构造方法
     public TankFrame() {
         //因为自己是一个窗口，可以直接调用窗口的方法
@@ -62,11 +66,28 @@ public class TankFrame extends Frame {
     //窗口被重新绘制的时候会调用这个方法，比如窗口大小改变时候。
     @Override
     public void paint(Graphics g) {
+//        画出子弹的数量
+        Color bulletSizeColor = g.getColor();
+        g.setColor(Color.white);
+        g.drawString("子弹数量：" + bullets.size(),10,60);
+        g.setColor(bulletSizeColor);
         //这个方法没有被调用，却被打印出来了，说明它是自动调用的。
         //Graphics g是画图的类，相当于一支画笔。
 //        把g这支画笔传给坦克，然后又传给子弹。
         myTank.paint(g);
-        bullet.paint(g);
+/*        ConcurrentModificationException问题解决，要改for循环
+        for(Bullet b : bullets) {
+            b.paint(g);
+        }*/
+        for(int i=0;i<bullets.size();i++) {
+            bullets.get(i).paint(g);
+        }
+
+//        for(Iterator<Bullet> it = bullets.iterator();it.hasNext();) {
+//            Bullet b = it.next();
+//            if(!b.live) it.remove();
+//        }
+
     }
 
     //内部类
