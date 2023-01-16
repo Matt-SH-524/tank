@@ -11,8 +11,9 @@ public class TankFrame extends Frame {
 
 //    游戏界面宽度和高度定义成常量
     private final static int GAME_WIDTH=800,GAME_HEIGHT=800;
-    Tank myTank = new Tank(200,200,Dir.DOWN);
-    Bullet myBullet = new Bullet(250,250,Dir.DOWN);
+    //    哪个窗口new出来的坦克，请你把自己传进来。
+    Tank myTank = new Tank(200,200,Dir.DOWN,this);
+    Bullet bullet = new Bullet(250,250,Dir.DOWN);
     //建立一个构造方法
     public TankFrame() {
         //因为自己是一个窗口，可以直接调用窗口的方法
@@ -65,7 +66,7 @@ public class TankFrame extends Frame {
         //Graphics g是画图的类，相当于一支画笔。
 //        把g这支画笔传给坦克，然后又传给子弹。
         myTank.paint(g);
-        myBullet.paint(g);
+        bullet.paint(g);
     }
 
     //内部类
@@ -127,6 +128,9 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_DOWN:
                     bD = false;
+                    break;
+                case KeyEvent.VK_CONTROL:
+                    myTank.fire();
                     break;
                 default:
                     break;
