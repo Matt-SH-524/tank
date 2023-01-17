@@ -75,8 +75,9 @@ public class TankFrame extends Frame {
         //Graphics g是画图的类，相当于一支画笔。
 //        把g这支画笔传给坦克，然后又传给子弹。
         myTank.paint(g);
-/*        ConcurrentModificationException问题解决，要改for循环
+/*      因为迭代器只能在循环内remove，所以会发生ConcurrentModificationException问题，解决方案：不用迭代器，改为for循环
         for(Bullet b : bullets) {
+
             b.paint(g);
         }*/
         for(int i=0;i<bullets.size();i++) {
