@@ -41,6 +41,7 @@ public class Tank {
 
     public void paint(Graphics g) {
 
+/* 没有图片时候画坦克的方法
         //        画笔的颜色先保存下来
         Color tankColor = g.getColor();
 //        setColor方法要放在画坦克之前，放在后面就失效了。
@@ -48,6 +49,23 @@ public class Tank {
         g.fillRect(x,y,50,50);
 //        画完子弹后把画笔的颜色重新设回去
         g.setColor(tankColor);
+*/
+        //调用图片画坦克
+        switch (dir) {
+            case LEFT:
+                g.drawImage(ResourceMgr.tankL,this.x,this.y,null);
+                break;
+            case RIGHT:
+                g.drawImage(ResourceMgr.tankR,this.x,this.y,null);
+                break;
+            case UP:
+                g.drawImage(ResourceMgr.tankU,this.x,this.y,null);
+                break;
+            case DOWN:
+                g.drawImage(ResourceMgr.tankD,this.x,this.y,null);
+                break;
+        }
+
 //        设置个控制移动的方法
         move();
     }
