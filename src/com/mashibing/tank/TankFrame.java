@@ -6,18 +6,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 //继承Frame类(窗口类)，优势：可以重写Frame方法
 public class TankFrame extends Frame {
 
 //    游戏界面宽度和高度定义成常量
-    public final static int GAME_WIDTH=800,GAME_HEIGHT=800;
+    public final static int GAME_WIDTH=1400,GAME_HEIGHT=900;
     //    哪个窗口new出来的坦克，请你把自己传进来。
-    Tank myTank = new Tank(200,200,Dir.DOWN,this);
+    Tank myTank = new Tank(200,500,Dir.DOWN,this);
 //    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
     List<Bullet> bullets = new ArrayList<>();
+//    定义敌方坦克-复数
+    List<Tank> tanks = new ArrayList<>();
     //建立一个构造方法
     public TankFrame() {
         //因为自己是一个窗口，可以直接调用窗口的方法
@@ -83,11 +84,15 @@ public class TankFrame extends Frame {
         for(int i=0;i<bullets.size();i++) {
             bullets.get(i).paint(g);
         }
+//        画出敌方tanks
+        for(int i=0;i<tanks.size();i++) {
+            tanks.get(i).paint(g);
+        }
 
-//        for(Iterator<Bullet> it = bullets.iterator();it.hasNext();) {
-//            Bullet b = it.next();
-//            if(!b.live) it.remove();
-//        }
+/*        for(Iterator<Bullet> it = bullets.iterator();it.hasNext();) {
+            Bullet b = it.next();
+            if(!b.live) it.remove();
+        }*/
 
     }
 
