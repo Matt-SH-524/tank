@@ -3,16 +3,34 @@ package com.mashibing.tank;
 import java.awt.*;
 
 public class Tank {
-//    坦克的位置
-    private int x,y;
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    //    坦克的位置
+    private int x, y;
     //    坦克的方向
     private Dir dir;
-//坦克的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
+    //坦克的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
     private final static int SPEED = 5;
     //在tank类里引用TankFrame
     private TankFrame tf = null;
+    //    tank存在
+    private boolean living = true;
 
-//    坦克图片的宽度和长度
+    //    坦克图片的宽度和长度
     public static int WIDTH = ResourceMgr.tankL.getWidth();
     public static int HEIGHT = ResourceMgr.tankL.getHeight();
 
@@ -45,6 +63,7 @@ public class Tank {
 
     public void paint(Graphics g) {
 
+        if(!living) tf.tanks.remove(this);
 /* 没有图片时候画坦克的方法
         //        画笔的颜色先保存下来
         Color tankColor = g.getColor();
@@ -97,5 +116,9 @@ public class Tank {
         int bulletX = this.x + WIDTH/2 - Bullet.WIDTH/2;
         int bulletY = this.y + HEIGHT/2 - Bullet.HEIGHT/2;
         tf.bullets.add(new Bullet(bulletX,bulletY,this.dir,tf));
+    }
+
+    public void die() {
+        this.living = false;
     }
 }

@@ -7,12 +7,12 @@ public class Bullet {
     private Dir dir;
     private TankFrame tf;
 //    子弹存在
-    private boolean live = true;
+    private boolean living = true;
     //    子弹图片的宽度和长度
     public static int WIDTH = ResourceMgr.bulletD.getWidth();
     public static int HEIGHT = ResourceMgr.bulletD.getHeight();
 
-    private final static int SPEED = 3;
+    private final static int SPEED = 15;
     public Bullet(int x, int y, Dir dir, TankFrame tf) {
         this.x = x;
         this.y = y;
@@ -24,7 +24,7 @@ public class Bullet {
 //        如果子弹飞出去就不存在了
 //        使用容器List，如果不进行回收，容易产生内存泄露，所以Java也会有内存泄露，比如容器的值没有回收。
 //        remove时不会越界，因为它会同时调整size.
-        if(!live) tf.bullets.remove(this);
+        if(!living) tf.bullets.remove(this);
 /*//        画笔的颜色先保存下来
         Color bulletColor = g.getColor();
 //        setColor方法要放在画子弹fillOval之前，放在后面就失效了。
@@ -67,6 +67,22 @@ public class Bullet {
                 y+=SPEED;
                 break;
         }
-        if(x<0 || y<0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) live =false;
+        if(x<0 || y<0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) living =false;
+    }
+
+//    子弹和坦克碰撞检测
+    public void collideWith(Tank tank) {
+        //获取子弹的矩阵
+        Rectangle recBullet =  new Rectangle(this.x,this.y,WIDTH,HEIGHT);
+        //获取tank的矩阵
+        Rectangle recTank =  new Rectangle(tank.getX(),tank.getY(),Tank.WIDTH,Tank.HEIGHT);
+        if(recBullet.intersects(recTank)) {
+            tank.die();
+            this.die();
+        }
+    }
+
+    private void die() {
+        this.living = false;
     }
 }

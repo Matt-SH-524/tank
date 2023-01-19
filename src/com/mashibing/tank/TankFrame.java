@@ -71,6 +71,7 @@ public class TankFrame extends Frame {
         Color bulletSizeColor = g.getColor();
         g.setColor(Color.white);
         g.drawString("子弹数量：" + bullets.size(),10,60);
+        g.drawString("敌人数量：" + tanks.size(),10,80);
         g.setColor(bulletSizeColor);
         //这个方法没有被调用，却被打印出来了，说明它是自动调用的。
         //Graphics g是画图的类，相当于一支画笔。
@@ -81,13 +82,14 @@ public class TankFrame extends Frame {
 
             b.paint(g);
         }*/
-        for(int i=0;i<bullets.size();i++) {
-            bullets.get(i).paint(g);
-        }
+        for(int i=0;i<bullets.size();i++)  bullets.get(i).paint(g);
 //        画出敌方tanks
-        for(int i=0;i<tanks.size();i++) {
-            tanks.get(i).paint(g);
-        }
+        for(int i=0;i<tanks.size();i++) tanks.get(i).paint(g);
+//        bullet和tank的碰撞判断
+        for(int i=0;i<bullets.size();i++)
+            for(int j=0;j<tanks.size();j++){
+                bullets.get(i).collideWith(tanks.get(j));
+            }
 
 /*        for(Iterator<Bullet> it = bullets.iterator();it.hasNext();) {
             Bullet b = it.next();
