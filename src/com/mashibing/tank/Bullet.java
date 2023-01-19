@@ -8,6 +8,10 @@ public class Bullet {
     private TankFrame tf;
 //    子弹存在
     private boolean live = true;
+    //    子弹图片的宽度和长度
+    public static int WIDTH = ResourceMgr.bulletD.getWidth();
+    public static int HEIGHT = ResourceMgr.bulletD.getHeight();
+
     private final static int SPEED = 3;
     public Bullet(int x, int y, Dir dir, TankFrame tf) {
         this.x = x;
@@ -21,13 +25,29 @@ public class Bullet {
 //        使用容器List，如果不进行回收，容易产生内存泄露，所以Java也会有内存泄露，比如容器的值没有回收。
 //        remove时不会越界，因为它会同时调整size.
         if(!live) tf.bullets.remove(this);
-//        画笔的颜色先保存下来
+/*//        画笔的颜色先保存下来
         Color bulletColor = g.getColor();
 //        setColor方法要放在画子弹fillOval之前，放在后面就失效了。
         g.setColor(Color.red); //red和RED一样都是红色
         g.fillOval(x,y,10,10);
 //        画完子弹后把画笔的颜色重新设回去
-        g.setColor(bulletColor);
+        g.setColor(bulletColor);*/
+        //调用图片画坦克
+        switch (dir) {
+            case LEFT:
+                g.drawImage(ResourceMgr.bulletL,this.x,this.y,null);
+                break;
+            case RIGHT:
+                g.drawImage(ResourceMgr.bulletR,this.x,this.y,null);
+                break;
+            case UP:
+                g.drawImage(ResourceMgr.bulletU,this.x,this.y,null);
+                break;
+            case DOWN:
+                g.drawImage(ResourceMgr.bulletD,this.x,this.y,null);
+                break;
+        }
+
 //        设置个控制移动的方法
         move();
     }

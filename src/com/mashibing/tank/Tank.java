@@ -12,6 +12,10 @@ public class Tank {
     //在tank类里引用TankFrame
     private TankFrame tf = null;
 
+//    坦克图片的宽度和长度
+    public static int WIDTH = ResourceMgr.tankL.getWidth();
+    public static int HEIGHT = ResourceMgr.tankL.getHeight();
+
     //    设置坦克的停止状态
     private boolean moving = false;
 //定义构造体
@@ -89,6 +93,9 @@ public class Tank {
     }
 //坦克发射子弹，在坦克的类里写发射子弹的方法。
     public void fire() {
-        tf.bullets.add(new Bullet(this.x,this.y,this.dir,tf));
+//        计算子弹发射的位置，我们采用简单的方法，从tank的中心打出来。
+        int bulletX = this.x + WIDTH/2 - Bullet.WIDTH/2;
+        int bulletY = this.y + HEIGHT/2 - Bullet.HEIGHT/2;
+        tf.bullets.add(new Bullet(bulletX,bulletY,this.dir,tf));
     }
 }
