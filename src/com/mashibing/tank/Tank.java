@@ -1,6 +1,7 @@
 package com.mashibing.tank;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Tank {
     public int getX() {
@@ -24,24 +25,37 @@ public class Tank {
     //    坦克的方向
     private Dir dir;
     //坦克的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
-    private final static int SPEED = 5;
+    private final static int SPEED = 3;
     //在tank类里引用TankFrame
     private TankFrame tf = null;
     //    tank存在
     private boolean living = true;
 
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+    //    区分敌方和我方,默认是敌方
+    private Group group = Group.BAD;
+
     //    坦克图片的宽度和长度
     public static int WIDTH = ResourceMgr.tankL.getWidth();
     public static int HEIGHT = ResourceMgr.tankL.getHeight();
 
-    //    设置坦克的停止状态
-    private boolean moving = false;
+    //    设置坦克的停止状态->因为有了敌人坦克，坦克都要动起来。
+    private boolean moving = true;
+//    生成随机数
+    private Random random = new Random();
 //定义构造体
 //    TankFrame是我们的大管家，我们都要持有它的引用
-    public Tank(int x, int y, Dir dir,TankFrame tf) {
+    public Tank(int x, int y, Dir dir,Group group,TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
         this.tf = tf;
     }
 
@@ -109,13 +123,15 @@ public class Tank {
                 y+=SPEED;
                 break;
         }
+//        产生一个10以内的随机数，并且判断是否>8
+        if (random.nextInt(10) > 8) this.fire();
     }
 //坦克发射子弹，在坦克的类里写发射子弹的方法。
     public void fire() {
 //        计算子弹发射的位置，我们采用简单的方法，从tank的中心打出来。
         int bulletX = this.x + WIDTH/2 - Bullet.WIDTH/2;
         int bulletY = this.y + HEIGHT/2 - Bullet.HEIGHT/2;
-        tf.bullets.add(new Bullet(bulletX,bulletY,this.dir,tf));
+        tf.bullets.add(new Bullet(bulletX,bulletY,this.dir,this.group,tf));
     }
 
     public void die() {

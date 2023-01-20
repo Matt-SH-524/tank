@@ -14,7 +14,7 @@ public class TankFrame extends Frame {
 //    游戏界面宽度和高度定义成常量
     public final static int GAME_WIDTH=1400,GAME_HEIGHT=900;
     //    哪个窗口new出来的坦克，请你把自己传进来。
-    Tank myTank = new Tank(200,500,Dir.DOWN,this);
+    Tank myTank = new Tank(200,500,Dir.DOWN,Group.GOOD,this);
 //    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
     List<Bullet> bullets = new ArrayList<>();
 //    定义敌方坦克-复数
@@ -82,6 +82,7 @@ public class TankFrame extends Frame {
 
             b.paint(g);
         }*/
+
         for(int i=0;i<bullets.size();i++)  bullets.get(i).paint(g);
 //        画出敌方tanks
         for(int i=0;i<tanks.size();i++) tanks.get(i).paint(g);

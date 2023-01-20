@@ -10,7 +10,7 @@ public class Main {
 //        初始化敌方tanks
         List<Tank> enemyTank = null;
         for(int i=0;i<5;i++) {
-            tf.tanks.add(new Tank(100+80*i,200,Dir.DOWN,tf));
+            tf.tanks.add(new Tank(100+80*i,200,Dir.DOWN,Group.BAD,tf));
         }
         while (true) {
             //主线程里不断刷新

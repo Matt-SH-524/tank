@@ -8,15 +8,27 @@ public class Bullet {
     private TankFrame tf;
 //    子弹存在
     private boolean living = true;
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    //    区分敌方和我方,默认是敌方 
+    private Group group = Group.BAD;
     //    子弹图片的宽度和长度
     public static int WIDTH = ResourceMgr.bulletD.getWidth();
     public static int HEIGHT = ResourceMgr.bulletD.getHeight();
 
     private final static int SPEED = 15;
-    public Bullet(int x, int y, Dir dir, TankFrame tf) {
+    public Bullet(int x, int y, Dir dir,Group group, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
         this.tf = tf;
     }
 
@@ -72,6 +84,9 @@ public class Bullet {
 
 //    子弹和坦克碰撞检测
     public void collideWith(Tank tank) {
+//        子弹和坦克都是同一方的，就没有伤害
+        if (this.group == tank.getGroup()) return;
+//        problem:每次循环都new子弹，会让java占用太多内存，它的垃圾回收器会时不时运行，以后需要改进成只用一个rect
         //获取子弹的矩阵
         Rectangle recBullet =  new Rectangle(this.x,this.y,WIDTH,HEIGHT);
         //获取tank的矩阵
