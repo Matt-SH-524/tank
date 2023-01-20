@@ -12,6 +12,8 @@ public class Main {
         for(int i=0;i<5;i++) {
             tf.tanks.add(new Tank(100+80*i,200,Dir.DOWN,Group.BAD,tf));
         }
+//        播放音乐
+        new Thread(()->new Audio("audio/war1.wav").loop()).start();
         while (true) {
             //主线程里不断刷新
             Thread.sleep(50);
