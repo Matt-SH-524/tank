@@ -19,6 +19,8 @@ public class TankFrame extends Frame {
     List<Bullet> bullets = new ArrayList<>();
 //    定义敌方坦克-复数
     List<Tank> tanks = new ArrayList<>();
+
+    Explode e = new Explode(100,100,this);
     //建立一个构造方法
     public TankFrame() {
         //因为自己是一个窗口，可以直接调用窗口的方法
@@ -82,11 +84,12 @@ public class TankFrame extends Frame {
 
             b.paint(g);
         }*/
+        e.paint(g);
 
         for(int i=0;i<bullets.size();i++)  bullets.get(i).paint(g);
 //        画出敌方tanks
         for(int i=0;i<tanks.size();i++) tanks.get(i).paint(g);
-//        bullet和tank的碰撞判断
+//        bullet和tank的碰撞判断：把所有子弹拿出来跟每辆坦克去判断，是否撞上了。
         for(int i=0;i<bullets.size();i++)
             for(int j=0;j<tanks.size();j++){
                 bullets.get(i).collideWith(tanks.get(j));

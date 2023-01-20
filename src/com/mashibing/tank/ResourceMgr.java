@@ -10,6 +10,8 @@ public class ResourceMgr {
     public static BufferedImage tankL,tankR,tankU,tankD;
     //    定义bullet图片
     public static BufferedImage bulletL,bulletR,bulletU,bulletD;
+    //    定义爆炸图片数组,注意：定义数组时候需要new对象确定数组大小。
+    public static BufferedImage[] explodes = new BufferedImage[16];
     static {
         try {
 //            getResourceAsStream是当成Stream读进来，再把这个Stream交给ImageIO请它转换成图片。
@@ -23,6 +25,8 @@ public class ResourceMgr {
             bulletR = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletR.gif"));
             bulletU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletU.gif"));
             bulletD = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletD.gif"));
+            for (int i = 0; i < 16; i++)
+                explodes[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/e" + (i + 1) + ".gif"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -17,7 +17,7 @@ public class Bullet {
         this.group = group;
     }
 
-    //    区分敌方和我方,默认是敌方 
+    //    区分敌方和我方,默认是敌方
     private Group group = Group.BAD;
     //    子弹图片的宽度和长度
     public static int WIDTH = ResourceMgr.bulletD.getWidth();
@@ -84,13 +84,14 @@ public class Bullet {
 
 //    子弹和坦克碰撞检测
     public void collideWith(Tank tank) {
-//        子弹和坦克都是同一方的，就没有伤害
+//        子弹和坦克都是同一方的，就没有伤害return
         if (this.group == tank.getGroup()) return;
 //        problem:每次循环都new子弹，会让java占用太多内存，它的垃圾回收器会时不时运行，以后需要改进成只用一个rect
         //获取子弹的矩阵
         Rectangle recBullet =  new Rectangle(this.x,this.y,WIDTH,HEIGHT);
         //获取tank的矩阵
         Rectangle recTank =  new Rectangle(tank.getX(),tank.getY(),Tank.WIDTH,Tank.HEIGHT);
+//        判断子弹矩阵和tank矩阵是否相交
         if(recBullet.intersects(recTank)) {
             tank.die();
             this.die();
