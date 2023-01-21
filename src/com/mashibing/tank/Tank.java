@@ -125,8 +125,16 @@ public class Tank {
                 y += SPEED;
                 break;
         }
-//        产生一个10以内的随机数，并且判断是否>8
-        if (random.nextInt(10) > 8) this.fire();
+//        产生一个100以内的随机数，并且判断是否>95;加判断把mytank随机发射情况给去掉。
+        if (random.nextInt(100) > 95 && this.group == Group.BAD) this.fire();
+//        定义敌方坦克随机方向
+//        让坦克随机停留一段时间再转方向
+        if (random.nextInt(100) > 95 && this.group == Group.BAD) randomDir();
+    }
+
+    private void randomDir() {
+//        直接取Dir的value，不用多余的判断，显的简便很多。
+        this.dir = Dir.values()[random.nextInt(4)];
     }
 
     //坦克发射子弹，在坦克的类里写发射子弹的方法。
