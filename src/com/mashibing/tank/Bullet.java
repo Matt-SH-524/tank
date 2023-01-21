@@ -96,7 +96,8 @@ public class Bullet {
             tank.die();
             this.die();
 //            碰撞场合把爆炸加进来。
-            tf.explodes.add(new Explode(x, y, tf));
+//            爆炸在坦克中心，计算位置时要注意减掉爆炸图片的一半。
+            tf.explodes.add(new Explode(tank.getX() + Tank.WIDTH / 2 - Explode.WIDTH / 2, tank.getY() + Tank.HEIGHT / 2 - Explode.HEIGHT / 2, tf));
         }
     }
 
