@@ -5,8 +5,6 @@ import java.awt.*;
 public class Explode {
     private int x,y;
     private TankFrame tf;
-//    子弹存在
-    private boolean living = true;
 //    爆炸图片数组控制变量
     private int step = 0;
 
@@ -22,8 +20,8 @@ public class Explode {
     }
 
     public void paint(Graphics g) {
-       g.drawImage(ResourceMgr.explodes[step++],this.x,this.y,null);
-//       大于数组长度，变成无。
-        if(step>=ResourceMgr.explodes.length) step = 0;
+        g.drawImage(ResourceMgr.explodes[step++], this.x, this.y, null);
+//       大于数组长度，爆炸被remove。
+        if (step >= ResourceMgr.explodes.length) tf.explodes.remove(this);
     }
 }

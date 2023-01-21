@@ -38,6 +38,7 @@ public class Tank {
     public void setGroup(Group group) {
         this.group = group;
     }
+
     //    区分敌方和我方,默认是敌方
     private Group group = Group.BAD;
 
@@ -47,11 +48,12 @@ public class Tank {
 
     //    设置坦克的停止状态->因为有了敌人坦克，坦克都要动起来。
     private boolean moving = true;
-//    生成随机数
+    //    生成随机数
     private Random random = new Random();
-//定义构造体
+
+    //定义构造体
 //    TankFrame是我们的大管家，我们都要持有它的引用
-    public Tank(int x, int y, Dir dir,Group group,TankFrame tf) {
+    public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -77,7 +79,7 @@ public class Tank {
 
     public void paint(Graphics g) {
 
-        if(!living) tf.tanks.remove(this);
+        if (!living) tf.tanks.remove(this);
 /* 没有图片时候画坦克的方法
         //        画笔的颜色先保存下来
         Color tankColor = g.getColor();
@@ -90,16 +92,16 @@ public class Tank {
         //调用图片画坦克
         switch (dir) {
             case LEFT:
-                g.drawImage(ResourceMgr.tankL,this.x,this.y,null);
+                g.drawImage(ResourceMgr.tankL, this.x, this.y, null);
                 break;
             case RIGHT:
-                g.drawImage(ResourceMgr.tankR,this.x,this.y,null);
+                g.drawImage(ResourceMgr.tankR, this.x, this.y, null);
                 break;
             case UP:
-                g.drawImage(ResourceMgr.tankU,this.x,this.y,null);
+                g.drawImage(ResourceMgr.tankU, this.x, this.y, null);
                 break;
             case DOWN:
-                g.drawImage(ResourceMgr.tankD,this.x,this.y,null);
+                g.drawImage(ResourceMgr.tankD, this.x, this.y, null);
                 break;
         }
 
@@ -108,30 +110,31 @@ public class Tank {
     }
 
     private void move() {
-        if(!moving) return;
+        if (!moving) return;
         switch (dir) {
             case LEFT:
-                x-=SPEED;
+                x -= SPEED;
                 break;
             case RIGHT:
-                x+=SPEED;
+                x += SPEED;
                 break;
             case UP:
-                y-=SPEED;
+                y -= SPEED;
                 break;
             case DOWN:
-                y+=SPEED;
+                y += SPEED;
                 break;
         }
 //        产生一个10以内的随机数，并且判断是否>8
         if (random.nextInt(10) > 8) this.fire();
     }
-//坦克发射子弹，在坦克的类里写发射子弹的方法。
+
+    //坦克发射子弹，在坦克的类里写发射子弹的方法。
     public void fire() {
 //        计算子弹发射的位置，我们采用简单的方法，从tank的中心打出来。
-        int bulletX = this.x + WIDTH/2 - Bullet.WIDTH/2;
-        int bulletY = this.y + HEIGHT/2 - Bullet.HEIGHT/2;
-        tf.bullets.add(new Bullet(bulletX,bulletY,this.dir,this.group,tf));
+        int bulletX = this.x + WIDTH / 2 - Bullet.WIDTH / 2;
+        int bulletY = this.y + HEIGHT / 2 - Bullet.HEIGHT / 2;
+        tf.bullets.add(new Bullet(bulletX, bulletY, this.dir, this.group, tf));
     }
 
     public void die() {

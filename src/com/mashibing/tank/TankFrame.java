@@ -11,21 +11,22 @@ import java.util.List;
 //继承Frame类(窗口类)，优势：可以重写Frame方法
 public class TankFrame extends Frame {
 
-//    游戏界面宽度和高度定义成常量
-    public final static int GAME_WIDTH=1400,GAME_HEIGHT=900;
+    //    游戏界面宽度和高度定义成常量
+    public final static int GAME_WIDTH = 1400, GAME_HEIGHT = 900;
     //    哪个窗口new出来的坦克，请你把自己传进来。
-    Tank myTank = new Tank(200,500,Dir.DOWN,Group.GOOD,this);
-//    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
+    Tank myTank = new Tank(200, 500, Dir.DOWN, Group.GOOD, this);
+    //    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
     List<Bullet> bullets = new ArrayList<>();
-//    定义敌方坦克-复数
+    //    定义敌方坦克-复数
     List<Tank> tanks = new ArrayList<>();
+    //    定义爆炸-复数
+    List<Explode> explodes = new ArrayList<>();
 
-    Explode e = new Explode(100,100,this);
     //建立一个构造方法
     public TankFrame() {
         //因为自己是一个窗口，可以直接调用窗口的方法
         //设置窗口大小
-        setSize(GAME_WIDTH,GAME_HEIGHT);
+        setSize(GAME_WIDTH, GAME_HEIGHT);
         //设置不能改变窗口大小
         setResizable(false);
         setTitle("tank war");
@@ -72,8 +73,9 @@ public class TankFrame extends Frame {
 //        画出子弹的数量
         Color bulletSizeColor = g.getColor();
         g.setColor(Color.white);
-        g.drawString("子弹数量：" + bullets.size(),10,60);
-        g.drawString("敌人数量：" + tanks.size(),10,80);
+        g.drawString("子弹数量：" + bullets.size(), 10, 60);
+        g.drawString("敌人数量：" + tanks.size(), 10, 80);
+        g.drawString("爆炸数量：" + explodes.size(), 10, 100);
         g.setColor(bulletSizeColor);
         //这个方法没有被调用，却被打印出来了，说明它是自动调用的。
         //Graphics g是画图的类，相当于一支画笔。
@@ -84,16 +86,17 @@ public class TankFrame extends Frame {
 
             b.paint(g);
         }*/
-        e.paint(g);
 
-        for(int i=0;i<bullets.size();i++)  bullets.get(i).paint(g);
+        for (int i = 0; i < bullets.size(); i++) bullets.get(i).paint(g);
 //        画出敌方tanks
-        for(int i=0;i<tanks.size();i++) tanks.get(i).paint(g);
+        for (int i = 0; i < tanks.size(); i++) tanks.get(i).paint(g);
 //        bullet和tank的碰撞判断：把所有子弹拿出来跟每辆坦克去判断，是否撞上了。
-        for(int i=0;i<bullets.size();i++)
-            for(int j=0;j<tanks.size();j++){
+        for (int i = 0; i < bullets.size(); i++)
+            for (int j = 0; j < tanks.size(); j++) {
                 bullets.get(i).collideWith(tanks.get(j));
             }
+        //        画出爆炸
+        for (int i = 0; i < explodes.size(); i++) explodes.get(i).paint(g);
 
 /*        for(Iterator<Bullet> it = bullets.iterator();it.hasNext();) {
             Bullet b = it.next();
