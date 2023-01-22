@@ -50,6 +50,8 @@ public class Tank {
     private boolean moving = true;
     //    生成随机数
     private Random random = new Random();
+    //    tank的矩形
+    Rectangle rect = new Rectangle();
 
     //定义构造体
 //    TankFrame是我们的大管家，我们都要持有它的引用
@@ -59,6 +61,10 @@ public class Tank {
         this.dir = dir;
         this.group = group;
         this.tf = tf;
+        this.rect.x = x;
+        this.rect.y = y;
+        this.rect.width = WIDTH;
+        this.rect.height = HEIGHT;
     }
 
     public Dir getDir() {
@@ -147,6 +153,9 @@ public class Tank {
         if (random.nextInt(100) > 95 && this.group == Group.BAD) randomDir();
 //        边界检测
         boundCheck();
+        //移动后rect的x和y要重新赋值
+        this.rect.x = x;
+        this.rect.y = y;
     }
 
     private void boundCheck() {

@@ -9,6 +9,9 @@ public class Bullet {
 //    子弹存在
     private boolean living = true;
 
+//    bullet的矩形
+    Rectangle rect = new Rectangle();
+
     public Group getGroup() {
         return group;
     }
@@ -30,6 +33,10 @@ public class Bullet {
         this.dir = dir;
         this.group = group;
         this.tf = tf;
+        this.rect.x = x;
+        this.rect.y=y;
+        this.rect.width = WIDTH;
+        this.rect.height = HEIGHT;
     }
 
     public void paint(Graphics g) {
@@ -79,6 +86,9 @@ public class Bullet {
                 y+=SPEED;
                 break;
         }
+//        移动后rect的x和y要重新赋值
+        this.rect.x = x;
+        this.rect.y = y;
         if(x<0 || y<0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) living =false;
     }
 
@@ -87,12 +97,8 @@ public class Bullet {
 //        子弹和坦克都是同一方的，就没有伤害return
         if (this.group == tank.getGroup()) return;
 //        problem:每次循环都new子弹，会让java占用太多内存，它的垃圾回收器会时不时运行，以后需要改进成只用一个rect
-        //获取子弹的矩阵
-        Rectangle recBullet =  new Rectangle(this.x,this.y,WIDTH,HEIGHT);
-        //获取tank的矩阵
-        Rectangle recTank =  new Rectangle(tank.getX(),tank.getY(),Tank.WIDTH,Tank.HEIGHT);
 //        判断子弹矩阵和tank矩阵是否相交
-        if(recBullet.intersects(recTank)) {
+        if(this.rect.intersects(tank.rect)) {
             tank.die();
             this.die();
 //            碰撞场合把爆炸加进来。
