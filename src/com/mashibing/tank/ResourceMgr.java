@@ -14,6 +14,7 @@ public class ResourceMgr {
     //    定义爆炸图片数组,注意：定义数组时候需要new对象确定数组大小。
     public static BufferedImage[] explodes = new BufferedImage[16];
     static {
+//        由于涉及到它的I/O所有要处理它的exception,加try catch
         try {
 //            getResourceAsStream是当成Stream读进来，再把这个Stream交给ImageIO请它转换成图片。
 //            要用类点.class就是找到了它放到内存里的对象

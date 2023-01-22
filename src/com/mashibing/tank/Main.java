@@ -7,9 +7,11 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         //new个对象
         TankFrame tf = new TankFrame();
+//        从配置文件中读取敌方坦克的数量
+        int initTankCount  = Integer.parseInt(PropertyMgr.get("initTankCount").toString());
 //        初始化敌方tanks
         List<Tank> enemyTank = null;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < initTankCount; i++) {
             tf.tanks.add(new Tank(100 + 80 * i, 200, Dir.DOWN, Group.BAD, tf));
         }
 //        播放音乐
