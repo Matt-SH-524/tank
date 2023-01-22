@@ -43,8 +43,8 @@ public class Tank {
     private Group group = Group.BAD;
 
     //    坦克图片的宽度和长度
-    public static int WIDTH = ResourceMgr.tankL.getWidth();
-    public static int HEIGHT = ResourceMgr.tankL.getHeight();
+    public static int WIDTH = ResourceMgr.badTankL.getWidth();
+    public static int HEIGHT = ResourceMgr.badTankL.getHeight();
 
     //    设置坦克的停止状态->因为有了敌人坦克，坦克都要动起来。
     private boolean moving = true;
@@ -90,21 +90,36 @@ public class Tank {
         g.setColor(tankColor);
 */
         //调用图片画坦克
-        switch (dir) {
-            case LEFT:
-                g.drawImage(ResourceMgr.tankL, this.x, this.y, null);
-                break;
-            case RIGHT:
-                g.drawImage(ResourceMgr.tankR, this.x, this.y, null);
-                break;
-            case UP:
-                g.drawImage(ResourceMgr.tankU, this.x, this.y, null);
-                break;
-            case DOWN:
-                g.drawImage(ResourceMgr.tankD, this.x, this.y, null);
-                break;
-        }
-
+        if (this.group == Group.GOOD)
+            switch (dir) {
+                case LEFT:
+                    g.drawImage(ResourceMgr.goodTankL, this.x, this.y, null);
+                    break;
+                case RIGHT:
+                    g.drawImage(ResourceMgr.goodTankR, this.x, this.y, null);
+                    break;
+                case UP:
+                    g.drawImage(ResourceMgr.goodTankU, this.x, this.y, null);
+                    break;
+                case DOWN:
+                    g.drawImage(ResourceMgr.goodTankD, this.x, this.y, null);
+                    break;
+            }
+        else if (this.group == Group.BAD)
+            switch (dir) {
+                case LEFT:
+                    g.drawImage(ResourceMgr.badTankL, this.x, this.y, null);
+                    break;
+                case RIGHT:
+                    g.drawImage(ResourceMgr.badTankR, this.x, this.y, null);
+                    break;
+                case UP:
+                    g.drawImage(ResourceMgr.badTankU, this.x, this.y, null);
+                    break;
+                case DOWN:
+                    g.drawImage(ResourceMgr.badTankD, this.x, this.y, null);
+                    break;
+            }
 //        设置个控制移动的方法
         move();
     }
