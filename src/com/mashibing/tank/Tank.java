@@ -145,6 +145,18 @@ public class Tank {
 //        定义敌方坦克随机方向
 //        让坦克随机停留一段时间再转方向
         if (random.nextInt(100) > 95 && this.group == Group.BAD) randomDir();
+//        边界检测
+        boundCheck();
+    }
+
+    private void boundCheck() {
+        //边界检测，留出2个像素位置，会使画面更美观 。
+        if (this.x < 0) x = 2;
+        //要加上坦克本身的宽度
+        if (this.x > TankFrame.GAME_WIDTH - Tank.WIDTH - 2) x = TankFrame.GAME_WIDTH - Tank.WIDTH - 2;
+        //画面有上沿30高
+        if (this.y < 30) y = 30;
+        if (this.y > TankFrame.GAME_HEIGHT - Tank.HEIGHT - 2) y = TankFrame.GAME_HEIGHT - Tank.HEIGHT - 2;
     }
 
     private void randomDir() {
