@@ -37,6 +37,8 @@ public class Bullet {
         this.rect.y=y;
         this.rect.width = WIDTH;
         this.rect.height = HEIGHT;
+//        new出子弹后直接把自己加到bullets这个 list里.
+        tf.bullets.add(this);
     }
 
     public void paint(Graphics g) {

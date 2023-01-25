@@ -23,11 +23,11 @@ public class Tank {
     //    坦克的位置
     private int x, y;
     //    坦克的方向
-    private Dir dir;
+    public Dir dir;
     //坦克的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
     private final static int SPEED = 3;
     //在tank类里引用TankFrame
-    private TankFrame tf = null;
+    public TankFrame tf = null;
     //    tank存在
     private boolean living = true;
 
@@ -40,7 +40,7 @@ public class Tank {
     }
 
     //    区分敌方和我方,默认是敌方
-    private Group group = Group.BAD;
+    public Group group = Group.BAD;
 
     //    坦克图片的宽度和长度
     public static int WIDTH = ResourceMgr.badTankL.getWidth();
@@ -52,6 +52,12 @@ public class Tank {
     private Random random = new Random();
     //    tank的矩形
     Rectangle rect = new Rectangle();
+//    改策略的方式:定义不同类型的成员变量.
+
+    //    FireStrategy fs = new DefaultFireStrategy();
+//    FireStrategy fs = new FourDirFireStrategy();
+//    可以在tank初始化定义,这样更便捷.
+    FireStrategy fs;
 
     //定义构造体
 //    TankFrame是我们的大管家，我们都要持有它的引用
@@ -65,6 +71,8 @@ public class Tank {
         this.rect.y = y;
         this.rect.width = WIDTH;
         this.rect.height = HEIGHT;
+        if(group==Group.GOOD) fs = new FourDirFireStrategy();
+        else fs = new DefaultFireStrategy();
     }
 
     public Dir getDir() {
@@ -175,10 +183,7 @@ public class Tank {
 
     //坦克发射子弹，在坦克的类里写发射子弹的方法。
     public void fire() {
-//        计算子弹发射的位置，我们采用简单的方法，从tank的中心打出来。
-        int bulletX = this.x + WIDTH / 2 - Bullet.WIDTH / 2;
-        int bulletY = this.y + HEIGHT / 2 - Bullet.HEIGHT / 2;
-        tf.bullets.add(new Bullet(bulletX, bulletY, this.dir, this.group, tf));
+        fs.fire(this);
     }
 
     public void die() {
