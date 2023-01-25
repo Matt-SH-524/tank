@@ -1,6 +1,7 @@
 package com.mashibing.strategy;
 
 //public class Dog implements Comparable{
+//不写<Dog>默认是Object,写了系统会自动帮你做类型检查，如果传进来不是Dog就会报错。
 public class Dog implements Comparable<Dog>{
     int food;
 
