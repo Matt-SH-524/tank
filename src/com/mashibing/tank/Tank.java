@@ -71,8 +71,25 @@ public class Tank {
         this.rect.y = y;
         this.rect.width = WIDTH;
         this.rect.height = HEIGHT;
-        if(group==Group.GOOD) fs = new FourDirFireStrategy();
+/*        if(group==Group.GOOD) fs = new FourDirFireStrategy();
         else fs = new DefaultFireStrategy();
+        改成配置文件*/
+        if (group == Group.GOOD) {
+            String goodFSName = PropertyMgr.get("goodFS").toString();
+//            这样就把名字代表的类load到内存了,这个类要全路径才能识别:这就是反射.
+            try {
+                fs = (FireStrategy) Class.forName(goodFSName).newInstance();
+            } catch (InstantiationException e) {
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            fs = new DefaultFireStrategy();
+        }
+
     }
 
     public Dir getDir() {
