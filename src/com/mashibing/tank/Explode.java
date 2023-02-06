@@ -1,8 +1,10 @@
 package com.mashibing.tank;
 
+import com.mashibing.tank.abstractfactory.BaseExplode;
+
 import java.awt.*;
 
-public class Explode {
+public class Explode extends BaseExplode {
     private int x,y;
     private TankFrame tf;
 //    爆炸图片数组控制变量
@@ -18,7 +20,8 @@ public class Explode {
         this.tf = tf;
         new Audio("audio/explode.wav").play();
     }
-
+//    既然Explode继承了BaseExplode,那它就变成重写了paint方法。
+    @Override
     public void paint(Graphics g) {
         g.drawImage(ResourceMgr.explodes[step++], this.x, this.y, null);
 //       大于数组长度，爆炸被remove。

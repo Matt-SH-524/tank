@@ -1,5 +1,9 @@
 package com.mashibing.tank;
 
+import com.mashibing.tank.abstractfactory.BaseExplode;
+import com.mashibing.tank.abstractfactory.DefaultFactory;
+import com.mashibing.tank.abstractfactory.GameFactory;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,7 +24,10 @@ public class TankFrame extends Frame {
     //    定义敌方坦克-复数
     List<Tank> tanks = new ArrayList<>();
     //    定义爆炸-复数
-    List<Explode> explodes = new ArrayList<>();
+//    爆炸定义变成抽象类List<Explode>--》List<BaseExplode>
+    List<BaseExplode> explodes = new ArrayList<>();
+//    暂时在这里初始化工厂
+    GameFactory gf = new DefaultFactory();
 
     //建立一个构造方法
     public TankFrame() {
