@@ -3,6 +3,7 @@ package com.mashibing.tank;
 import com.mashibing.tank.abstractfactory.BaseExplode;
 import com.mashibing.tank.abstractfactory.DefaultFactory;
 import com.mashibing.tank.abstractfactory.GameFactory;
+import com.mashibing.tank.abstractfactory.RectFactoryImpl;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -25,9 +26,12 @@ public class TankFrame extends Frame {
     List<Tank> tanks = new ArrayList<>();
     //    定义爆炸-复数
 //    爆炸定义变成抽象类List<Explode>--》List<BaseExplode>
-    List<BaseExplode> explodes = new ArrayList<>();
-//    暂时在这里初始化工厂
-    GameFactory gf = new DefaultFactory();
+//    com.mashibing.tank.abstractfactory里面没法使用private型的explodes，所以改成public。
+    public List<BaseExplode> explodes = new ArrayList<>();
+    //    暂时在这里初始化工厂
+//    GameFactory gf = new DefaultFactory();
+//    子弹是方形的工厂,只要改一个地方,子弹就会有变化,如果写到配置文件里,代码都不需要修改了.
+    GameFactory gf = new RectFactoryImpl();
 
     //建立一个构造方法
     public TankFrame() {
@@ -58,20 +62,21 @@ public class TankFrame extends Frame {
     }
 
     Image offScreenImage = null;
+
     @Override
     //update方法会在paint之前被调用，所以截获系统paint之前，拿到这支画笔。
     public void update(Graphics g) {
-        if (offScreenImage == null) offScreenImage = this.createImage(GAME_WIDTH,GAME_HEIGHT);
+        if (offScreenImage == null) offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color offScreenColor = gOffScreen.getColor();
 //        用黑颜色把背景涂一遍
         gOffScreen.setColor(Color.black);
-        gOffScreen.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         gOffScreen.setColor(offScreenColor);
         //        接下去就是paint方法被调用，这样就把这支画笔传给坦克和子弹，画坦克和子弹时候就画到内存里了。
         paint(gOffScreen);//就是调用下面的paint方法
 //        这个g是系统的画笔，直接把整张图片画到屏幕上。
-        g.drawImage(offScreenImage,0,0,null);
+        g.drawImage(offScreenImage, 0, 0, null);
     }
 
     //窗口被重新绘制的时候会调用这个方法，比如窗口大小改变时候。
@@ -180,12 +185,13 @@ public class TankFrame extends Frame {
             }
             setMainTankDir();
         }
+
         private void setMainTankDir() {
             /*正式写法
             if(bR) {
                 dir = Dir.RIGHT;
             }*/
-            if(!bR && !bL && !bU && !bD) myTank.setMoving(false);
+            if (!bR && !bL && !bU && !bD) myTank.setMoving(false);
             else {//简洁写法
                 if (bR) myTank.setDir(Dir.RIGHT);
                 if (bL) myTank.setDir(Dir.LEFT);
