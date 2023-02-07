@@ -1,11 +1,11 @@
-package com.mashibing.tank;
+package com.mashibing.tank.abstractfactory;
 
-import com.mashibing.tank.abstractfactory.BaseBullet;
+import com.mashibing.tank.*;
 
 import java.awt.*;
 
 //既然定义子弹父类BaseBullet，那各种类型的生产都要从继承父类开始。追加：extends BaseBullet。
-public class Bullet extends BaseBullet {
+public class RectBulletImpl extends BaseBullet {
     private int x, y;
     private Dir dir;
     private TankFrame tf;
@@ -31,7 +31,7 @@ public class Bullet extends BaseBullet {
 
     private final static int SPEED = 15;
 
-    public Bullet(int x, int y, Dir dir, Group group, TankFrame tf) {
+    public RectBulletImpl(int x, int y, Dir dir, Group group, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -51,28 +51,13 @@ public class Bullet extends BaseBullet {
 //        使用容器List，如果不进行回收，容易产生内存泄露，所以Java也会有内存泄露，比如容器的值没有回收。
 //        remove时不会越界，因为它会同时调整size.
         if (!living) tf.bullets.remove(this);
-/*//        画笔的颜色先保存下来
+//        画笔的颜色先保存下来
         Color bulletColor = g.getColor();
 //        setColor方法要放在画子弹fillOval之前，放在后面就失效了。
         g.setColor(Color.red); //red和RED一样都是红色
         g.fillOval(x,y,10,10);
 //        画完子弹后把画笔的颜色重新设回去
-        g.setColor(bulletColor);*/
-        //调用图片画坦克
-        switch (dir) {
-            case LEFT:
-                g.drawImage(ResourceMgr.bulletL, this.x, this.y, null);
-                break;
-            case RIGHT:
-                g.drawImage(ResourceMgr.bulletR, this.x, this.y, null);
-                break;
-            case UP:
-                g.drawImage(ResourceMgr.bulletU, this.x, this.y, null);
-                break;
-            case DOWN:
-                g.drawImage(ResourceMgr.bulletD, this.x, this.y, null);
-                break;
-        }
+        g.setColor(bulletColor);
 
 //        设置个控制移动的方法
         move();

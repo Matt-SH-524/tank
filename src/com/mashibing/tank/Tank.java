@@ -53,7 +53,7 @@ public class Tank {
     //    生成随机数
     private Random random = new Random();
     //    tank的矩形
-    Rectangle rect = new Rectangle();
+    public Rectangle rect = new Rectangle();
 //    改策略的方式:定义不同类型的成员变量.
 
     //    FireStrategy fs = new DefaultFireStrategy();
@@ -77,6 +77,7 @@ public class Tank {
         else fs = new DefaultFireStrategy();
         改成配置文件*/
         if (group == Group.GOOD) {
+            //根据配置文件：goodFS=com.mashibing.tank.FourDirFireStrategy。我方坦克发射子弹用的是FourDirFireStrategy。
             String goodFSName = PropertyMgr.get("goodFS").toString();
 //            这样就把名字代表的类load到内存了,这个类要全路径才能识别:这就是反射.
             try {

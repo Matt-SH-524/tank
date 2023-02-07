@@ -8,12 +8,14 @@ import com.mashibing.tank.TankFrame;
 public class RectFactoryImpl extends GameFactory {
     @Override
     public BaseExplode creatExplode(int x, int y, TankFrame tf) {
+
         return new RectExplodeImpl(x, y, tf);
     }
 
     @Override
     public BaseBullet creatBullet(int x, int y, Dir dir, Group group, TankFrame tf) {
-        return null;
+
+        return new RectBulletImpl(x, y, dir, group, tf);
     }
 
     @Override

@@ -17,6 +17,7 @@ public class DefaultFireStrategy implements FireStrategy{
         int bulletX = tank.getX() + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
         int bulletY = tank.getY() + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
         new Bullet(bulletX, bulletY, tank.dir, tank.group, tank.tf);
+
 //        我方坦克开火时,设置声音
         if(tank.group==Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").loop()).start();
     }

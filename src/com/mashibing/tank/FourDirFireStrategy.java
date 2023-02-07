@@ -9,7 +9,8 @@ public class FourDirFireStrategy implements FireStrategy{
         int bulletY = tank.getY() + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
         Dir[] dirs = Dir.values();
         for(Dir dir : dirs)
-            new Bullet(bulletX, bulletY, dir, tank.group, tank.tf);
+            // 我方坦克开火,新规子弹变成生产子弹 new Bullet(bulletX, bulletY, dir, tank.group, tank.tf);
+            tank.tf.gf.creatBullet(bulletX, bulletY, dir, tank.group, tank.tf);
 //        我方坦克开火时,设置声音
         if(tank.group==Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").loop()).start();
     }
