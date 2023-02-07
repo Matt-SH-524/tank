@@ -17,6 +17,6 @@ public class DefaultFactory extends GameFactory {
 
     @Override
     public BaseTank creatTank(int x, int y, Dir dir, Group group, TankFrame tf) {
-        return null;
+        return new Tank(x, y, dir, group, tf);
     }
 }

@@ -16,19 +16,20 @@ public class TankFrame extends Frame {
     //    游戏界面宽度和高度定义成常量
     public final static int GAME_WIDTH = 1400, GAME_HEIGHT = 900;
     //    哪个窗口new出来的坦克，请你把自己传进来。
-    Tank myTank = new Tank(200, 500, Dir.DOWN, Group.GOOD, this);
     //    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
     public List<BaseBullet> bullets = new ArrayList<>();//定义要改成父类的类名字：Bullet->BaseBullet
     //    定义敌方坦克-复数
-    List<Tank> tanks = new ArrayList<>();
+    public List<BaseTank> tanks = new ArrayList<>();
     //    定义爆炸-复数
 //    爆炸定义变成抽象类List<Explode>--》List<BaseExplode>
 //    com.mashibing.tank.abstractfactory里面没法使用private型的explodes，所以改成public。
     public List<BaseExplode> explodes = new ArrayList<>();
     //    暂时在这里初始化工厂
-//    GameFactory gf = new DefaultFactory();
+    public GameFactory gf = new DefaultFactory();
 //    子弹是方形的工厂,只要改一个地方,子弹就会有变化,如果写到配置文件里,代码都不需要修改了.
-    public GameFactory gf = new RectFactoryImpl();
+//    public GameFactory gf = new RectFactoryImpl();
+
+    BaseTank myTank = this.gf.creatTank(200, 500, Dir.DOWN, Group.GOOD, this);
 
     //建立一个构造方法
     public TankFrame() {

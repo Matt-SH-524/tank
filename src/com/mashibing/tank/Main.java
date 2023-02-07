@@ -11,10 +11,10 @@ public class Main {
 //        初始化敌方tanks
         List<Tank> enemyTank = null;
         for (int i = 0; i < initTankCount; i++) {
-            tf.tanks.add(new Tank(100 + 80 * i, 200, Dir.DOWN, Group.BAD, tf));
+            tf.tanks.add(tf.gf.creatTank(100 + 80 * i, 200, Dir.DOWN, Group.BAD, tf));
         }
-//        播放音乐
-        new Thread(() -> new Audio("audio/war1.wav").loop()).start();
+//        播放音乐 主音乐先关掉
+//        new Thread(() -> new Audio("audio/war1.wav").loop()).start();
         while (true) {
             //主线程里不断刷新
             Thread.sleep(50);

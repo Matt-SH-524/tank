@@ -1,13 +1,11 @@
-package com.mashibing.tank;
+package com.mashibing.tank.abstractfactory;
 
-import com.mashibing.tank.abstractfactory.BaseTank;
+import com.mashibing.tank.*;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
-import java.lang.Class;
 
-public class Tank extends BaseTank {
+public class ReacTankImpl extends BaseTank {
     public int getX() {
         return x;
     }
@@ -38,10 +36,13 @@ public class Tank extends BaseTank {
 //    public Group getGroup() {
 //        return group;
 //    }
-//
+
 //    public void setGroup(Group group) {
 //        this.group = group;
 //    }
+
+    //    区分敌方和我方,默认是敌方
+//    public Group group = Group.BAD;
 
     //    坦克图片的宽度和长度
     public static int WIDTH = ResourceMgr.badTankL.getWidth();
@@ -51,16 +52,18 @@ public class Tank extends BaseTank {
     private boolean moving = true;
     //    生成随机数
     private Random random = new Random();
+    //    tank的矩形
+    public Rectangle rect = new Rectangle();
 //    改策略的方式:定义不同类型的成员变量.
 
     //    FireStrategy fs = new DefaultFireStrategy();
 //    FireStrategy fs = new FourDirFireStrategy();
 //    可以在tank初始化定义,这样更便捷.
-//    FireStrategy fs;
+    FireStrategy fs;
 
     //定义构造体
 //    TankFrame是我们的大管家，我们都要持有它的引用
-    public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
+    public ReacTankImpl(int x, int y, Dir dir, Group group, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -70,31 +73,6 @@ public class Tank extends BaseTank {
         this.rect.y = y;
         this.rect.width = WIDTH;
         this.rect.height = HEIGHT;
-/*        if(group==Group.GOOD) fs = new FourDirFireStrategy();
-        else fs = new DefaultFireStrategy();
-        改成配置文件*/
-        //子弹的策略模式先去掉
-//        if (group == Group.GOOD) {
-//            //根据配置文件：goodFS=com.mashibing.tank.FourDirFireStrategy。我方坦克发射子弹用的是FourDirFireStrategy。
-//            String goodFSName = PropertyMgr.get("goodFS").toString();
-////            这样就把名字代表的类load到内存了,这个类要全路径才能识别:这就是反射.
-//            try {
-//                fs = (FireStrategy) Class.forName(goodFSName).getDeclaredConstructor().newInstance();
-//            } catch (InstantiationException e) {
-//                throw new RuntimeException(e);
-//            } catch (IllegalAccessException e) {
-//                throw new RuntimeException(e);
-//            } catch (ClassNotFoundException e) {
-//                throw new RuntimeException(e);
-//            } catch (InvocationTargetException e) {
-//                throw new RuntimeException(e);
-//            } catch (NoSuchMethodException e) {
-//                throw new RuntimeException(e);
-//            }
-//        } else {
-//            fs = new DefaultFireStrategy();
-//        }
-
     }
 
     public Dir getDir() {
@@ -117,46 +95,17 @@ public class Tank extends BaseTank {
     public void paint(Graphics g) {
 
         if (!living) tf.tanks.remove(this);
-/* 没有图片时候画坦克的方法
         //        画笔的颜色先保存下来
         Color tankColor = g.getColor();
 //        setColor方法要放在画坦克之前，放在后面就失效了。
-        g.setColor(Color.yellow);
-        g.fillRect(x,y,50,50);
-//        画完子弹后把画笔的颜色重新设回去
-        g.setColor(tankColor);
-*/
         //调用图片画坦克
         if (this.group == Group.GOOD)
-            switch (dir) {
-                case LEFT:
-                    g.drawImage(ResourceMgr.goodTankL, this.x, this.y, null);
-                    break;
-                case RIGHT:
-                    g.drawImage(ResourceMgr.goodTankR, this.x, this.y, null);
-                    break;
-                case UP:
-                    g.drawImage(ResourceMgr.goodTankU, this.x, this.y, null);
-                    break;
-                case DOWN:
-                    g.drawImage(ResourceMgr.goodTankD, this.x, this.y, null);
-                    break;
-            }
+            g.setColor(Color.red);
         else if (this.group == Group.BAD)
-            switch (dir) {
-                case LEFT:
-                    g.drawImage(ResourceMgr.badTankL, this.x, this.y, null);
-                    break;
-                case RIGHT:
-                    g.drawImage(ResourceMgr.badTankR, this.x, this.y, null);
-                    break;
-                case UP:
-                    g.drawImage(ResourceMgr.badTankU, this.x, this.y, null);
-                    break;
-                case DOWN:
-                    g.drawImage(ResourceMgr.badTankD, this.x, this.y, null);
-                    break;
-            }
+            g.setColor(Color.yellow);
+        g.fillRect(x,y,50,50);
+        //        画完子弹后把画笔的颜色重新设回去
+        g.setColor(tankColor);
 //        设置个控制移动的方法
         move();
     }
@@ -193,10 +142,10 @@ public class Tank extends BaseTank {
         //边界检测，留出2个像素位置，会使画面更美观 。
         if (this.x < 0) x = 2;
         //要加上坦克本身的宽度
-        if (this.x > TankFrame.GAME_WIDTH - Tank.WIDTH - 2) x = TankFrame.GAME_WIDTH - Tank.WIDTH - 2;
+        if (this.x > TankFrame.GAME_WIDTH - ReacTankImpl.WIDTH - 2) x = TankFrame.GAME_WIDTH - ReacTankImpl.WIDTH - 2;
         //画面有上沿30高
         if (this.y < 30) y = 30;
-        if (this.y > TankFrame.GAME_HEIGHT - Tank.HEIGHT - 2) y = TankFrame.GAME_HEIGHT - Tank.HEIGHT - 2;
+        if (this.y > TankFrame.GAME_HEIGHT - ReacTankImpl.HEIGHT - 2) y = TankFrame.GAME_HEIGHT - ReacTankImpl.HEIGHT - 2;
     }
 
     private void randomDir() {
@@ -208,8 +157,8 @@ public class Tank extends BaseTank {
     @Override
     public void fire() {
 //        fs.fire(this); 去掉fire的策略模式FourDirFireStrategy
-        int bulletX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
-        int bulletY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
+        int bulletX = this.x + ReacTankImpl.WIDTH / 2 - Bullet.WIDTH / 2;
+        int bulletY = this.y + ReacTankImpl.HEIGHT / 2 - Bullet.HEIGHT / 2;
         if (group == Group.GOOD) {
 
             Dir[] dirs = Dir.values();

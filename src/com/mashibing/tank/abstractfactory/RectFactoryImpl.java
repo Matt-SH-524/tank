@@ -20,6 +20,7 @@ public class RectFactoryImpl extends GameFactory {
 
     @Override
     public BaseTank creatTank(int x, int y, Dir dir, Group group, TankFrame tf) {
-        return null;
+
+        return new ReacTankImpl(x, y, dir, group, tf);
     }
 }
