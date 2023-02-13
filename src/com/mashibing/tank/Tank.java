@@ -20,6 +20,25 @@ public class Tank extends GameObject {
         this.y = y;
     }
 
+    public int getPrevX() {
+        return prevX;
+    }
+
+    public void setPrevX(int prevX) {
+        this.prevX = prevX;
+    }
+
+    public int getPrevY() {
+        return prevY;
+    }
+
+    public void setPrevY(int prevY) {
+        this.prevY = prevY;
+    }
+
+    //    坦克前一个位置
+    private int prevX, prevY;
+
     //    坦克的位置
     private int x, y;
     //    坦克的方向
@@ -51,6 +70,15 @@ public class Tank extends GameObject {
     private boolean moving = true;
     //    生成随机数
     private Random random = new Random();
+
+    public Rectangle getRect() {
+        return rect;
+    }
+
+    public void setRect(Rectangle rect) {
+        this.rect = rect;
+    }
+
     //    tank的矩形
     Rectangle rect = new Rectangle();
 
@@ -132,6 +160,8 @@ public class Tank extends GameObject {
     }
 
     private void move() {
+        this.prevX = x;
+        this.prevY = y;
         if (!moving) return;
         switch (dir) {
             case LEFT:
@@ -184,5 +214,16 @@ public class Tank extends GameObject {
 
     public void die() {
         this.living = false;
+    }
+    //tank互相碰撞要停止
+    public void stop() {
+        this.moving = false;
+//        System.out.println("this.x:" + this.x + ";prevX:" + this.prevX);
+        this.x = this.prevX;
+        this.y = this.prevY;
+    }
+    //tank互相碰撞停止后，要继续动起来。
+    public void start() {
+        this.moving = true;
     }
 }

@@ -2,6 +2,7 @@ package com.mashibing.tank;
 
 import com.mashibing.tank.cor.BulletTankColliderImpl;
 import com.mashibing.tank.cor.Collider;
+import com.mashibing.tank.cor.TankTankColliderImpl;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ public class GameModel {
         this.myTank = myTank;
     }
 
-    Collider collider = new BulletTankColliderImpl();
+    Collider colliderBT = new BulletTankColliderImpl();
+    Collider colliderTT = new TankTankColliderImpl();
 
     public GameModel() {
         //从main方法里移过来。
@@ -73,8 +75,8 @@ public class GameModel {
             for (int j = i + 1; j < objects.size(); j++) {
                 GameObject o1 = objects.get(i);
                 GameObject o2 = objects.get(j);
-                collider.collide(o1, o2);
-
+                colliderBT.collide(o1, o2);
+                colliderTT.collide(o1, o2);
             }
 //        bullet和tank的碰撞判断：把所有子弹拿出来跟每辆坦克去判断，是否撞上了。
 //        for (int i = 0; i < bullets.size(); i++)

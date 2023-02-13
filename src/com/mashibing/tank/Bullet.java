@@ -99,7 +99,7 @@ public class Bullet extends GameObject {
         if (this.group == tank.getGroup()) return;
 //        problem:每次循环都new子弹，会让java占用太多内存，它的垃圾回收器会时不时运行，以后需要改进成只用一个rect
 //        判断子弹矩阵和tank矩阵是否相交
-        if (this.rect.intersects(tank.rect)) {
+        if (this.rect.intersects(tank.getRect())) {
             tank.die();
             this.die();
 //            碰撞场合把爆炸加进来。
