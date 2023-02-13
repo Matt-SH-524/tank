@@ -1,5 +1,8 @@
 package com.mashibing.tank;
 
+import com.mashibing.tank.cor.BulletTankColliderImpl;
+import com.mashibing.tank.cor.Collider;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +28,12 @@ public class GameModel {
         this.myTank = myTank;
     }
 
+    Collider collider = new BulletTankColliderImpl();
+
     public GameModel() {
         //从main方法里移过来。
         //        从配置文件中读取敌方坦克的数量
-        int initTankCount  = Integer.parseInt(PropertyMgr.get("initTankCount").toString());
+        int initTankCount = Integer.parseInt(PropertyMgr.get("initTankCount").toString());
 //        初始化敌方tanks
         List<Tank> enemyTank = null;
         for (int i = 0; i < initTankCount; i++) {
@@ -63,7 +68,14 @@ public class GameModel {
         }*/
 //        所有物体都放到objects里，循环也只要一次画出来
         for (int i = 0; i < objects.size(); i++) objects.get(i).paint(g);
+        //碰撞判断
+        for (int i = 0; i < objects.size(); i++)
+            for (int j = i + 1; j < objects.size(); j++) {
+                GameObject o1 = objects.get(i);
+                GameObject o2 = objects.get(j);
+                collider.collide(o1, o2);
 
+            }
 //        bullet和tank的碰撞判断：把所有子弹拿出来跟每辆坦克去判断，是否撞上了。
 //        for (int i = 0; i < bullets.size(); i++)
 //            for (int j = 0; j < tanks.size(); j++) {
