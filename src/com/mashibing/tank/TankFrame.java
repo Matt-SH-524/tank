@@ -5,22 +5,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 //继承Frame类(窗口类)，优势：可以重写Frame方法
 public class TankFrame extends Frame {
 
     //    游戏界面宽度和高度定义成常量
     public final static int GAME_WIDTH = 1400, GAME_HEIGHT = 900;
-    //    哪个窗口new出来的坦克，请你把自己传进来。
-    Tank myTank = new Tank(200, 500, Dir.DOWN, Group.GOOD, this);
-    //    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
-    List<Bullet> bullets = new ArrayList<>();
-    //    定义敌方坦克-复数
-    List<Tank> tanks = new ArrayList<>();
-    //    定义爆炸-复数
-    List<Explode> explodes = new ArrayList<>();
+    GameModel gm = new GameModel();
 
     //建立一个构造方法
     public TankFrame() {
@@ -51,58 +42,28 @@ public class TankFrame extends Frame {
     }
 
     Image offScreenImage = null;
+
     @Override
     //update方法会在paint之前被调用，所以截获系统paint之前，拿到这支画笔。
     public void update(Graphics g) {
-        if (offScreenImage == null) offScreenImage = this.createImage(GAME_WIDTH,GAME_HEIGHT);
+        if (offScreenImage == null) offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color offScreenColor = gOffScreen.getColor();
 //        用黑颜色把背景涂一遍
         gOffScreen.setColor(Color.black);
-        gOffScreen.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         gOffScreen.setColor(offScreenColor);
         //        接下去就是paint方法被调用，这样就把这支画笔传给坦克和子弹，画坦克和子弹时候就画到内存里了。
         paint(gOffScreen);//就是调用下面的paint方法
 //        这个g是系统的画笔，直接把整张图片画到屏幕上。
-        g.drawImage(offScreenImage,0,0,null);
+        g.drawImage(offScreenImage, 0, 0, null);
     }
 
     //窗口被重新绘制的时候会调用这个方法，比如窗口大小改变时候。
     @Override
     public void paint(Graphics g) {
-//        画出子弹的数量
-        Color bulletSizeColor = g.getColor();
-        g.setColor(Color.white);
-        g.drawString("子弹数量：" + bullets.size(), 10, 60);
-        g.drawString("敌人数量：" + tanks.size(), 10, 80);
-        g.drawString("爆炸数量：" + explodes.size(), 10, 100);
-        g.setColor(bulletSizeColor);
-        //这个方法没有被调用，却被打印出来了，说明它是自动调用的。
-        //Graphics g是画图的类，相当于一支画笔。
-//        把g这支画笔传给坦克，然后又传给子弹。
-        myTank.paint(g);
-/*      因为迭代器只能在循环内remove，所以会发生ConcurrentModificationException问题，解决方案：不用迭代器，改为for循环
-        for(Bullet b : bullets) {
-
-            b.paint(g);
-        }*/
-
-        for (int i = 0; i < bullets.size(); i++) bullets.get(i).paint(g);
-//        画出敌方tanks
-        for (int i = 0; i < tanks.size(); i++) tanks.get(i).paint(g);
-//        bullet和tank的碰撞判断：把所有子弹拿出来跟每辆坦克去判断，是否撞上了。
-        for (int i = 0; i < bullets.size(); i++)
-            for (int j = 0; j < tanks.size(); j++) {
-                bullets.get(i).collideWith(tanks.get(j));
-            }
-        //        画出爆炸
-        for (int i = 0; i < explodes.size(); i++) explodes.get(i).paint(g);
-
-/*        for(Iterator<Bullet> it = bullets.iterator();it.hasNext();) {
-            Bullet b = it.next();
-            if(!b.live) it.remove();
-        }*/
-
+//        把paint的方法里面的内容，移到GameModel里面。
+        gm.paint(g);
     }
 
     //内部类
@@ -166,19 +127,21 @@ public class TankFrame extends Frame {
                     bD = false;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    myTank.fire();
+                    gm.getMyTank().fire();
                     break;
                 default:
                     break;
             }
             setMainTankDir();
         }
+
         private void setMainTankDir() {
             /*正式写法
             if(bR) {
                 dir = Dir.RIGHT;
             }*/
-            if(!bR && !bL && !bU && !bD) myTank.setMoving(false);
+            Tank myTank = gm.getMyTank();
+            if (!bR && !bL && !bU && !bD) myTank.setMoving(false);
             else {//简洁写法
                 if (bR) myTank.setDir(Dir.RIGHT);
                 if (bL) myTank.setDir(Dir.LEFT);

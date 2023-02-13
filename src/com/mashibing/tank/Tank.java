@@ -27,7 +27,8 @@ public class Tank {
     //坦克的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
     private final static int SPEED = 3;
     //在tank类里引用TankFrame
-    private TankFrame tf = null;
+//    把TankFram变成GameModel
+    private GameModel gm = null;
     //    tank存在
     private boolean living = true;
 
@@ -55,12 +56,12 @@ public class Tank {
 
     //定义构造体
 //    TankFrame是我们的大管家，我们都要持有它的引用
-    public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
+    public Tank(int x, int y, Dir dir, Group group, GameModel gm) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.tf = tf;
+        this.gm = gm;
         this.rect.x = x;
         this.rect.y = y;
         this.rect.width = WIDTH;
@@ -85,7 +86,7 @@ public class Tank {
 
     public void paint(Graphics g) {
 
-        if (!living) tf.tanks.remove(this);
+        if (!living) gm.tanks.remove(this);
 /* 没有图片时候画坦克的方法
         //        画笔的颜色先保存下来
         Color tankColor = g.getColor();
@@ -178,7 +179,7 @@ public class Tank {
 //        计算子弹发射的位置，我们采用简单的方法，从tank的中心打出来。
         int bulletX = this.x + WIDTH / 2 - Bullet.WIDTH / 2;
         int bulletY = this.y + HEIGHT / 2 - Bullet.HEIGHT / 2;
-        tf.bullets.add(new Bullet(bulletX, bulletY, this.dir, this.group, tf));
+        gm.bullets.add(new Bullet(bulletX, bulletY, this.dir, this.group, gm));
     }
 
     public void die() {
