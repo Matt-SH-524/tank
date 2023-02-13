@@ -3,7 +3,7 @@ package com.mashibing.tank;
 import java.awt.*;
 import java.util.Random;
 
-public class Tank {
+public class Tank extends GameObject {
     public int getX() {
         return x;
     }
@@ -86,7 +86,7 @@ public class Tank {
 
     public void paint(Graphics g) {
 
-        if (!living) gm.tanks.remove(this);
+        if (!living) gm.remove(this);
 /* 没有图片时候画坦克的方法
         //        画笔的颜色先保存下来
         Color tankColor = g.getColor();
@@ -179,7 +179,7 @@ public class Tank {
 //        计算子弹发射的位置，我们采用简单的方法，从tank的中心打出来。
         int bulletX = this.x + WIDTH / 2 - Bullet.WIDTH / 2;
         int bulletY = this.y + HEIGHT / 2 - Bullet.HEIGHT / 2;
-        gm.bullets.add(new Bullet(bulletX, bulletY, this.dir, this.group, gm));
+        gm.add(new Bullet(bulletX, bulletY, this.dir, this.group, gm));
     }
 
     public void die() {
