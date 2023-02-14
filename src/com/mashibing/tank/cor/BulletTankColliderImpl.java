@@ -1,22 +1,20 @@
 package com.mashibing.tank.cor;
 
 import com.mashibing.tank.Bullet;
-import com.mashibing.tank.GameModel;
 import com.mashibing.tank.GameObject;
 import com.mashibing.tank.Tank;
 
 public class BulletTankColliderImpl implements Collider {
     @Override
-    public void collide(GameObject o1, GameObject o2) {
+    public boolean collide(GameObject o1, GameObject o2) {
         if (o1 instanceof Bullet && o2 instanceof Tank) {
             Bullet b = (Bullet) o1;
             Tank t = (Tank) o2;
-            //以后需要把collideWith里面的内容都移过来。
-            b.collideWith(t);
+            //TODO 以后需要把collideWith里面的内容都移过来。
+            if (b.collideWith(t)) return false; //bullet tank相撞有死掉情况，所以返回false
         } else if (o1 instanceof Tank && o2 instanceof Bullet) {
-            collide(o2, o1);
-        } else {
-            return;
+            return collide(o2, o1);
         }
+        return true;
     }
 }

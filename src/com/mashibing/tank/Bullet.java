@@ -94,9 +94,9 @@ public class Bullet extends GameObject {
     }
 
     //    子弹和坦克碰撞检测
-    public void collideWith(Tank tank) {
+    public boolean collideWith(Tank tank) {
 //        子弹和坦克都是同一方的，就没有伤害return
-        if (this.group == tank.getGroup()) return;
+        if (this.group == tank.getGroup()) return false;
 //        problem:每次循环都new子弹，会让java占用太多内存，它的垃圾回收器会时不时运行，以后需要改进成只用一个rect
 //        判断子弹矩阵和tank矩阵是否相交
         if (this.rect.intersects(tank.getRect())) {
@@ -105,7 +105,9 @@ public class Bullet extends GameObject {
 //            碰撞场合把爆炸加进来。
 //            爆炸在坦克中心，计算位置时要注意减掉爆炸图片的一半。
             gm.add(new Explode(tank.getX() + Tank.WIDTH / 2 - Explode.WIDTH / 2, tank.getY() + Tank.HEIGHT / 2 - Explode.HEIGHT / 2, gm));
+            return true;
         }
+        return false;
     }
 
     private void die() {
