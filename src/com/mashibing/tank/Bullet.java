@@ -9,6 +9,14 @@ public class Bullet extends GameObject {
     //    子弹存在
     private boolean living = true;
 
+    public Rectangle getRect() {
+        return rect;
+    }
+
+    public void setRect(Rectangle rect) {
+        this.rect = rect;
+    }
+
     //    bullet的矩形
     Rectangle rect = new Rectangle();
 
@@ -110,7 +118,7 @@ public class Bullet extends GameObject {
         return false;
     }
 
-    private void die() {
+    public void die() {
         this.living = false;
     }
 }
