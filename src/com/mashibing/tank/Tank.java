@@ -160,6 +160,7 @@ public class Tank extends GameObject {
     }
 
     private void move() {
+//        记录移动之前的位置
         this.prevX = x;
         this.prevY = y;
         if (!moving) return;
@@ -216,14 +217,20 @@ public class Tank extends GameObject {
         this.living = false;
     }
     //tank互相碰撞要停止
-    public void stop() {
-        this.moving = false;
-//        System.out.println("this.x:" + this.x + ";prevX:" + this.prevX);
+//    public void stop() {
+//        this.moving = false;
+////        System.out.println("this.x:" + this.x + ";prevX:" + this.prevX);
+//        this.x = this.prevX;
+//        this.y = this.prevY;
+//    }
+//    //tank互相碰撞停止后，要继续动起来。
+//    public void start() {
+//        this.moving = true;
+//    }
+
+//    把stop和start优化成back方法
+    public void back() {
         this.x = this.prevX;
         this.y = this.prevY;
-    }
-    //tank互相碰撞停止后，要继续动起来。
-    public void start() {
-        this.moving = true;
     }
 }

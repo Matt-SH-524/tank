@@ -11,11 +11,8 @@ public class TankTankColliderImpl implements Collider {
             Tank t2 = (Tank) o2;
             //以后需要把collideWith里面的内容都移过来。
             if (t1.getRect().intersects(t2.getRect())) {
-                t1.stop();
-                t2.stop();
-            } else {
-                t1.start();
-                t2.start();
+                t1.back();
+                t2.back();
             }
         }
         //tank相撞没有死掉所以一直返回true
