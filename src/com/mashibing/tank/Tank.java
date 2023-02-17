@@ -45,6 +45,15 @@ public class Tank extends GameObject {
     private Dir dir;
     //坦克的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
     private final static int SPEED = 3;
+
+    public GameModel getGm() {
+        return gm;
+    }
+
+    public void setGm(GameModel gm) {
+        this.gm = gm;
+    }
+
     //在tank类里引用TankFrame
 //    把TankFram变成GameModel
     private GameModel gm = null;
