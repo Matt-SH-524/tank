@@ -8,6 +8,8 @@ import java.util.List;
 
 public class GameModel {
 
+    //定义成单例
+    private final static GameModel INSTANCE = new GameModel();
     //    哪个窗口new出来的坦克，请你把自己传进来。
     Tank myTank = new Tank(200, 500, Dir.DOWN, Group.GOOD, this);
     //    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
@@ -19,6 +21,7 @@ public class GameModel {
     //把所有物体(tank,explode,bullet)都放到这个list里面。
     List<GameObject> objects = new ArrayList<>();
 
+    public static GameModel getInstance() {return INSTANCE;}
     public Tank getMyTank() {
         return myTank;
     }
@@ -30,7 +33,7 @@ public class GameModel {
     //    colliderBT和colliderTT都放到ColliderChain里面
     ColliderChain colliderChain = new ColliderChain();
 
-    public GameModel() {
+    private GameModel() {
         //从main方法里移过来。
         //        从配置文件中读取敌方坦克的数量
         int initTankCount = Integer.parseInt(PropertyMgr.get("initTankCount").toString());

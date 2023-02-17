@@ -11,7 +11,7 @@ public class TankFrame extends Frame {
 
     //    游戏界面宽度和高度定义成常量
     public final static int GAME_WIDTH = 1400, GAME_HEIGHT = 900;
-    GameModel gm = new GameModel();
+    GameModel gm = GameModel.getInstance();
 
     //建立一个构造方法
     public TankFrame() {
