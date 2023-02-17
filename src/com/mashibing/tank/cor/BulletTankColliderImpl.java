@@ -1,9 +1,6 @@
 package com.mashibing.tank.cor;
 
-import com.mashibing.tank.Bullet;
-import com.mashibing.tank.Explode;
-import com.mashibing.tank.GameObject;
-import com.mashibing.tank.Tank;
+import com.mashibing.tank.*;
 
 public class BulletTankColliderImpl implements Collider {
     @Override
@@ -22,7 +19,7 @@ public class BulletTankColliderImpl implements Collider {
                 int eY = t.getY() + Tank.HEIGHT / 2 - Explode.HEIGHT / 2;
                 //碰撞场合把爆炸加进来。
                 //爆炸在坦克中心，计算位置时要注意减掉爆炸图片的一半。
-                t.getGm().add(new Explode(eX, eY, t.getGm()));
+                new Explode(eX, eY);
                 return false;
             }
         } else if (o1 instanceof Tank && o2 instanceof Bullet) {
