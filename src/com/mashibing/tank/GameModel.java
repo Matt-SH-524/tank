@@ -10,6 +10,9 @@ public class GameModel {
 
     //定义成单例
     private final static GameModel INSTANCE = new GameModel();
+    static {
+        INSTANCE.init();
+    }
     //    哪个窗口new出来的坦克，请你把自己传进来。
     Tank myTank = null;
     //    坦克会打出多个子弹，所以子弹是复数，因为子弹个数不确定，所以肯定是定义成容器(相当于动态数组)，而不是定义成数组(就变成静态)
@@ -37,6 +40,9 @@ public class GameModel {
     ColliderChain colliderChain = new ColliderChain();
 
     private GameModel() {
+    }
+
+    private void init() {
         //从main方法里移过来。
         //初始化主战tank
         myTank = new Tank(200, 500, Dir.DOWN, Group.GOOD);
@@ -45,7 +51,7 @@ public class GameModel {
 //        初始化敌方tanks
         List<Tank> enemyTank = null;
         for (int i = 0; i < initTankCount; i++) {
-            add(new Tank(100 + 80 * i, 200, Dir.DOWN, Group.BAD));
+            new Tank(100 + 80 * i, 200, Dir.DOWN, Group.BAD);
         }
 //        初始化墙
         add(new Wall(150, 150, 200, 50));
@@ -53,7 +59,6 @@ public class GameModel {
         add(new Wall(300, 300, 50, 200));
         add(new Wall(550, 300, 50, 200));
     }
-
     public void add(GameObject go) {
         this.objects.add(go);
     }

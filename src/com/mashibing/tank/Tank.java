@@ -91,7 +91,7 @@ public class Tank extends GameObject {
         this.rect.y = y;
         this.rect.width = WIDTH;
         this.rect.height = HEIGHT;
-//        GameModel.getInstance().add(this);
+        GameModel.getInstance().add(this);
     }
 
     public Dir getDir() {
