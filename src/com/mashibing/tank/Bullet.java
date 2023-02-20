@@ -3,7 +3,6 @@ package com.mashibing.tank;
 import java.awt.*;
 
 public class Bullet extends GameObject {
-    private int x, y;
     private Dir dir;
     //    子弹存在
     private boolean living = true;
@@ -45,6 +44,16 @@ public class Bullet extends GameObject {
         this.rect.width = WIDTH;
         this.rect.height = HEIGHT;
         GameModel.getInstance().add(this);
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 
     public void paint(Graphics g) {

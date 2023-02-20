@@ -3,10 +3,8 @@ package com.mashibing.tank;
 import java.awt.*;
 
 public class Explode extends GameObject {
-    private int x, y;
     //    爆炸图片数组控制变量
     private int step = 0;
-
     //    爆炸图片的宽度和长度
     public static int WIDTH = ResourceMgr.explodes[0].getWidth();
     public static int HEIGHT = ResourceMgr.explodes[0].getHeight();
@@ -16,6 +14,16 @@ public class Explode extends GameObject {
         this.y = y;
         GameModel.getInstance().add(this);
         new Audio("audio/explode.wav").play();
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 
     public void paint(Graphics g) {

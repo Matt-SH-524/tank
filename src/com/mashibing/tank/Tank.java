@@ -1,5 +1,7 @@
 package com.mashibing.tank;
 
+import com.mashibing.tank.decorator.RectDecoratorImpl;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -39,8 +41,6 @@ public class Tank extends GameObject {
     //    坦克前一个位置
     private int prevX, prevY;
 
-    //    坦克的位置
-    private int x, y;
     //    坦克的方向
     private Dir dir;
     //坦克的速度，因为是常量定义，不让别人改变，所以用final,也可以加上private
@@ -92,6 +92,16 @@ public class Tank extends GameObject {
         this.rect.width = WIDTH;
         this.rect.height = HEIGHT;
         GameModel.getInstance().add(this);
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 
     public Dir getDir() {
@@ -208,7 +218,7 @@ public class Tank extends GameObject {
 //        计算子弹发射的位置，我们采用简单的方法，从tank的中心打出来。
         int bulletX = this.x + WIDTH / 2 - Bullet.WIDTH / 2;
         int bulletY = this.y + HEIGHT / 2 - Bullet.HEIGHT / 2;
-        new Bullet(bulletX, bulletY, this.dir, this.group);
+        GameModel.getInstance().add(new RectDecoratorImpl(new Bullet(bulletX, bulletY, this.dir, this.group)));
     }
 
     public void die() {
