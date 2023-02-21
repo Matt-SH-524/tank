@@ -1,6 +1,7 @@
 package com.mashibing.tank;
 
 import com.mashibing.tank.decorator.RectDecoratorImpl;
+import com.mashibing.tank.decorator.TailDecoratorImpl;
 
 import java.awt.*;
 import java.util.Random;
@@ -218,7 +219,7 @@ public class Tank extends GameObject {
 //        计算子弹发射的位置，我们采用简单的方法，从tank的中心打出来。
         int bulletX = this.x + WIDTH / 2 - Bullet.WIDTH / 2;
         int bulletY = this.y + HEIGHT / 2 - Bullet.HEIGHT / 2;
-        GameModel.getInstance().add(new RectDecoratorImpl(new Bullet(bulletX, bulletY, this.dir, this.group)));
+        GameModel.getInstance().add(new RectDecoratorImpl(new TailDecoratorImpl(new Bullet(bulletX, bulletY, this.dir, this.group))));
     }
 
     public void die() {

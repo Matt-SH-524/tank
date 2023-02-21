@@ -12,7 +12,6 @@ public abstract class GODecorator extends GameObject {
     }
 
     @Override
-    public void paint(Graphics g) {
-        go.paint(g);
-    }
+    public abstract void paint(Graphics g);
+
 }
